@@ -1,0 +1,84 @@
+# Plan de Implementación - WikiAI
+
+Este plan detalla los pasos para realizar la migración de base de datos, implementar autenticación con Google, centralizar la generación de PDF en el backend y optimizar el diseño responsive.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Migración de Base de Datos:** Para pasar a la Opción 2 (Local/pgAdmin4), deberás tener instalado PostgreSQL localmente en tu máquina.
+> **Google Auth:** Necesitarás crear un proyecto en [Google Cloud Console](https://console.cloud.google.com/) para obtener el `CLIENT_ID`.
+
+## Proposed Changes
+
+### 1. Migración de Base de Datos (Docker -> Local)
+
+Se dejará de depender del contenedor de base de datos en Docker para facilitar el despliegue y la administración mediante pgAdmin4 local.
+
+#### [NEW] [.env](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/backend/.env)
+- Crear archivo con las credenciales de tu PostgreSQL local:
+  ```env
+  DB_HOST=localhost
+  DB_PORT=5432
+  DB_USER=tu_usuario
+  DB_PASSWORD=tu_contraseña
+  DB_NAME=wiki_ai
+  JWT_SECRET=tu_secreto_para_jwt
+  GOOGLE_CLIENT_ID=tu_google_client_id
+  ```
+
+#### [MODIFY] [db.js](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/backend/db.js)
+- Asegurar que el pool de conexiones use las variables de entorno correctamente.
+
+---
+
+### 2. Autenticación con Google
+
+Implementación de "Continuar con Google" para simplificar el acceso.
+
+#### [MODIFY] [server.js](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/backend/server.js)
+- Instalar `google-auth-library`.
+- Añadir endpoint `POST /api/auth/google` para verificar el `idToken` enviado desde el frontend.
+- Lógica para crear un usuario automáticamente si el email de Google no existe en la BD.
+
+#### [MODIFY] [index.html](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/frontend/index.html)
+- Añadir el script de Google Identity Services.
+- Añadir el contenedor para el botón de Google en el modal de Login.
+
+#### [MODIFY] [auth.js](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/frontend/js/auth.js)
+- Lógica para manejar el callback de Google y enviar el token al backend.
+
+---
+
+### 3. Generación de PDF en el Backend
+
+Migrar la lógica de creación de PDF del cliente al servidor para garantizar consistencia y soporte de caracteres especiales.
+
+#### [MODIFY] [server.js](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/backend/server.js)
+- Instalar `pdfkit`.
+- Crear endpoint `POST /api/export-pdf` que reciba el título y el contenido (HTML/Markdown).
+- Retornar el buffer del PDF con los headers apropiados para descarga automática.
+
+#### [MODIFY] [navigation.js](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/frontend/js/navigation.js)
+- Reemplazar la lógica de `exportToPDF` que usaba `jsPDF` por una llamada `fetch` al nuevo endpoint del backend.
+
+---
+
+### 4. Mejora del Responsive Design
+
+Optimizar la experiencia en tablets y móviles.
+
+#### [MODIFY] [components.css](file:///c:/Users/julia/Documents/9no_semestre/dll%20sistemas%20informaticos%20y%20multimedia/WIKI_IA/frontend/css/components.css)
+- Revisar y ajustar las Media Queries para `@media (max-width: 1024px)` y `@media (max-width: 768px)`.
+- Mejorar el comportamiento de los drawers laterales y la barra de búsqueda en pantallas pequeñas.
+- Asegurar que el contenido del artículo sea legible y los botones de acción sean fáciles de tocar.
+
+## Verification Plan
+
+### Automated Tests
+- No se requieren tests automatizados para esta fase, validación manual.
+
+### Manual Verification
+1. **DB:** Probar conexión desde pgAdmin4 local a la base de datos `wiki_ai`.
+2. **Auth:** Realizar login con una cuenta de Google real.
+3. **PDF:** Generar un reporte de un artículo y verificar que el archivo descargado se abra correctamente y el texto sea legible.
+4. **Responsive:** Usar herramientas de desarrollador del navegador para inspeccionar en resoluciones de iPhone 12/14 y iPad Air.

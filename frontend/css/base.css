@@ -1,0 +1,191 @@
+/* ════════════════════════════════════════════════════════════════
+   WikiAI — css/base.css
+   Variables, Reset y Tipografía — Lora + DM Sans
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Light Theme */
+  --bg-primary: #f8f6f1;
+  --bg-secondary: #f0ece3;
+  --surface: #ffffff;
+  --surface-alt: #ede9e0;
+  --border-light: #e2ddd4;
+  --border-dim: #d4cfc5;
+
+  --text-main: #1c1917;
+  --text-muted: #57534e;
+  --text-faint: #a8a29e;
+
+  --accent-primary: #1d4e7a;
+  --accent-secondary: #2563a8;
+  --accent-soft: #dbeafe;
+  --accent-hover: #163d60;
+
+  --ai-primary: #065f46;
+  --ai-secondary: #059669;
+  --ai-glass: rgba(6, 95, 70, 0.06);
+
+  --error: #9f1239;
+  --success: #065f46;
+  --warning: #b45309;
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.09);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.13);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-serif: 'Lora', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0a0a0c;
+  --bg-secondary: #121216;
+  --surface: #18181e;
+  --surface-alt: #22222b;
+  --border-light: #2a2a35;
+  --border-dim: #353545;
+
+  --text-main: #f1f1f3;
+  --text-muted: #a1a1b5;
+  --text-faint: #62627a;
+
+  --accent-primary: #70a1ff;
+  --accent-secondary: #5352ed;
+  --accent-soft: rgba(112, 161, 255, 0.12);
+  --accent-hover: #1e90ff;
+
+  --ai-primary: #2ed573;
+  --ai-secondary: #7bed9f;
+  --ai-glass: rgba(46, 213, 115, 0.1);
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 56px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Reset ───────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.7;
+  transition: background 0.35s ease, color 0.35s ease;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.glass {
+  background: var(--surface);
+}
+
+/* ── Loading skeleton ───────────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-alt) 25%, var(--border-light) 50%, var(--surface-alt) 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ── Toast ──────────────────────────────────────────────────── */
+@keyframes toastIn {
+  from {
+    transform: translate(-50%, 16px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastOut {
+  from {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translate(-50%, 16px);
+    opacity: 0;
+  }
+}
+
+.wiki-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-main);
+  color: var(--bg-primary);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 40px;
+  z-index: 4000;
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.25s ease-out;
+  white-space: nowrap;
+}
+
+/* ── Fade transition ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeUp 0.4s ease both;
+}
