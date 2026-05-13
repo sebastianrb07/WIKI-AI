@@ -1,473 +1,868 @@
-<!DOCTYPE html>
+frontend/index.html
+
+<!doctype html>
 <html lang="es" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WikiAI — La enciclopedia libre con inteligencia artificial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  
-  <!-- Quill Editor CSS -->
-  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WikiAI — La enciclopedia libre con inteligencia artificial</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Quill Editor CSS -->
+    <link
+      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
+      rel="stylesheet"
+    />
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/voice.css">
-    
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/voice.css" />
+
     <style>
       /* Estilos Premium para Modal de Perfil */
       .profile-modal-card {
-          max-width: 400px;
-          border-radius: 16px;
-          background: var(--surface);
-          box-shadow: var(--shadow-lg);
-          border: 1px solid var(--border-light);
-          padding: 32px;
+        max-width: 400px;
+        border-radius: 16px;
+        background: var(--surface);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-light);
+        padding: 32px;
       }
       .profile-modal-card .modal-header {
-          text-align: center;
-          margin-bottom: 24px;
+        text-align: center;
+        margin-bottom: 24px;
       }
       .profile-modal-card .modal-title {
-          font-family: var(--font-serif);
-          font-size: 26px;
-          color: var(--text-main);
-          margin-bottom: 4px;
+        font-family: var(--font-serif);
+        font-size: 26px;
+        color: var(--text-main);
+        margin-bottom: 4px;
       }
       .profile-modal-card .modal-header p {
-          color: var(--text-faint);
-          font-size: 14px;
+        color: var(--text-faint);
+        font-size: 14px;
       }
       .input-group {
-          margin-bottom: 16px;
+        margin-bottom: 16px;
       }
       .input-group label {
-          display: block;
-          font-size: 12px;
-          font-weight: 600;
-          color: var(--text-muted);
-          margin-bottom: 6px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
       .premium-input {
-          width: 100%;
-          padding: 12px 16px;
-          border-radius: 8px;
-          border: 1px solid var(--border-light);
-          background: var(--bg-secondary);
-          color: var(--text-main);
-          font-size: 14px;
-          transition: all 0.2s ease;
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--border-light);
+        background: var(--bg-secondary);
+        color: var(--text-main);
+        font-size: 14px;
+        transition: all 0.2s ease;
       }
       .premium-input:focus {
-          background: var(--surface);
-          border-color: var(--accent-primary);
-          box-shadow: 0 0 0 3px var(--accent-soft);
-          outline: none;
+        background: var(--surface);
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+        outline: none;
       }
       .password-change-section {
-          margin-top: 24px;
-          padding-top: 20px;
-          border-top: 1px dashed var(--border-light);
-          margin-bottom: 24px;
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px dashed var(--border-light);
+        margin-bottom: 24px;
       }
       .section-subtitle {
-          font-size: 13px;
-          font-weight: 600;
-          color: var(--text-main);
-          margin-bottom: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 16px;
       }
       .btn-primary {
-          width: 100%;
-          padding: 12px;
-          background: var(--accent-primary);
-          color: #fff;
-          border-radius: 8px;
-          font-weight: 600;
-          border: none;
-          margin-bottom: 12px;
-          transition: transform 0.1s, background 0.2s;
+        width: 100%;
+        padding: 12px;
+        background: var(--accent-primary);
+        color: #fff;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        margin-bottom: 12px;
+        transition:
+          transform 0.1s,
+          background 0.2s;
       }
       .btn-primary:hover {
-          background: var(--accent-hover);
-          transform: translateY(-1px);
+        background: var(--accent-hover);
+        transform: translateY(-1px);
       }
       .btn-danger {
-          width: 100%;
-          padding: 12px;
-          background: transparent;
-          color: var(--error);
-          border-radius: 8px;
-          font-weight: 600;
-          border: 1px solid var(--error);
-          transition: all 0.2s;
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        color: var(--error);
+        border-radius: 8px;
+        font-weight: 600;
+        border: 1px solid var(--error);
+        transition: all 0.2s;
       }
       .btn-danger:hover {
-          background: var(--error);
-          color: #fff;
+        background: var(--error);
+        color: #fff;
       }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="site-header glass">
+      <div class="header-inner">
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          aria-label="Abrir menú"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="22"
+            height="22"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
 
-  <!-- HEADER -->
-  <header class="site-header glass">
-    <div class="header-inner">
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú">
-        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-
-      <a class="logo" href="#" onclick="loadArticle('Ingeniería Inversa'); return false;">
-        <div class="logo-wrapper">
-          <div class="logo-icon">W</div>
-          <div class="logo-text-group">
-            <div class="logo-text">WikiAI</div>
-            <span class="logo-tagline">Inteligencia Colectiva</span>
-          </div>
-          <span class="logo-badge">IA</span>
-        </div>
-      </a>
-
-      <div class="search-wrap" id="searchWrap">
-        <div class="search-bar" id="searchBar">
-          <button class="btn-search-mode" id="btnSearchMode" title="Modo de búsqueda">W</button>
-          <input type="search" id="searchInput" name="wikiai-search-query" placeholder="Buscar en Wikipedia..." autocomplete="none" role="searchbox" data-form-type="other" />
-          <button class="btn-voice" id="btnVoice" title="Buscar por voz">🎤</button>
-          <button class="btn-search" id="btnSearch">Buscar</button>
-        </div>
-        <div class="autocomplete-box" id="autocompleteBox"></div>
-      </div>
-
-      <nav class="header-nav">
-        <a class="nav-link" href="#" onclick="loadArticle('Portada'); return false;">Portada</a>
-        <button class="nav-link btn-login" id="btnLogin">Iniciar sesión</button>
-        <div id="authNav" style="display:none; align-items:center; gap:12px;">
-          <span id="userGreeting" style="font-size:13px; font-weight:600; color:var(--text-main); cursor:pointer;" onclick="Auth.loadProfile()"></span>
-          <button class="nav-link btn-danger" style="padding:6px 12px; font-size:12px; border-radius:6px; margin:0; line-height:1;" id="btnTopLogout">Salir</button>
-        </div>
-      </nav>
-
-      <button class="theme-toggle" id="themeToggle" title="Cambiar tema">🌙</button>
-    </div>
-  </header>
-
-  <!-- LAYOUT -->
-  <div class="page-wrap">
-
-    <!-- SIDEBAR IZQUIERDA -->
-    <aside class="sidebar-left">
-      <div class="sidebar-section">
-        <div class="sidebar-title">Navegación</div>
-        <a class="sidebar-link active" href="#" data-action="portada">📖 Portada</a>
-        <a class="sidebar-link" href="#" data-action="eventos">📅 Eventos actuales</a>
-        <a class="sidebar-link" href="#" data-action="aleatorio">🎲 Artículo aleatorio</a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title">Herramientas IA</div>
-        <a class="sidebar-link" href="#" data-action="resumen">✦ Resumen automático</a>
-        <a class="sidebar-link" href="#" data-action="filtro">🛡️ Filtro de aportes</a>
-      </div>
-
-      <div class="sidebar-section">
-        <div class="sidebar-title">Comunidad</div>
-        <a class="sidebar-link" href="#" data-action="portal">💬 Portal comunitario</a>
-        <a class="sidebar-link" href="#" data-action="editor">✍️ Escribir artículo</a>
-        <a class="sidebar-link" href="#" data-action="ayuda">❓ Ayuda</a>
-      </div>
-
-      <!-- TOC dinámico -->
-      <div class="sidebar-section" id="tocSection" style="display:none">
-        <div class="sidebar-title">Contenido</div>
-        <div id="tocList"></div>
-      </div>
-    </aside>
-
-    <!-- ARTÍCULO PRINCIPAL -->
-    <main class="article" id="articleMain">
-      <div class="article-header">
-        <div class="article-breadcrumb" id="articleBreadcrumb">Tecnología › Ingeniería › Software</div>
-        <h1 class="article-title" id="articleTitle">Ingeniería Inversa</h1>
-        <p class="article-subtitle" id="articleSubtitle">El arte de deconstruir para comprender, mejorar y asegurar sistemas complejos.</p>
-        <div class="article-meta">
-          <span class="meta-tag verified">✅ Verificado</span>
-          <span class="meta-tag" id="editCount">📝 1.2k Ediciones</span>
-          <span class="meta-tag premium">⭐ Calidad Premium</span>
-        </div>
-      </div>
-
-      <!-- Panel IA -->
-      <div class="ai-summary glass" id="aiSummary">
-        <div class="ai-summary-header">
-          <span class="ai-badge">✦ IA</span>
-          <span class="ai-summary-title">Análisis inteligente</span>
-          <span class="ai-model">WikiAI · Local Intelligence</span>
-        </div>
-        <!-- Estado idle: invitación a generar el resumen -->
-        <div class="ai-idle" id="aiIdle">
-          <div class="ai-idle-icon">✦</div>
-          <p class="ai-idle-text">Pulsa <strong>"✦ Resumen automático"</strong> en el menú lateral para generar un análisis con IA del artículo actual.</p>
-        </div>
-        <div class="ai-generating" id="aiGenerating" style="display:none">
-          <div class="generating-dots">
-            <span></span><span></span><span></span>
-          </div>
-          <span>Sintetizando información clave…</span>
-        </div>
-        <div class="ai-content" id="aiContent" style="display:none"></div>
-      </div>
-
-      <!-- Cuerpo del artículo -->
-      <div class="article-body" id="articleBody">
-        <p>La <strong>ingeniería inversa</strong> es el proceso de analizar un producto o sistema para identificar sus componentes y las interrelaciones entre ellos, con el fin de reconstruir una representación del mismo en un nivel superior de abstracción.</p>
-        <p>En el ámbito del software, se utiliza para comprender el funcionamiento de ejecutables sin acceso al código fuente, permitiendo auditorías de seguridad, corrección de errores en sistemas legados y garantía de interoperabilidad entre plataformas distintas.</p>
-
-        <h2 id="sec-definicion">Definición y alcance</h2>
-        <p>El término proviene de la ingeniería de producto convencional: dado un sistema terminado, se trabaja «en reversa» para deducir su diseño original. En software, la ingeniería inversa abarca desde la lectura de bytecode Java hasta el desensamblado de binarios nativos x86/ARM.</p>
-
-        <h2 id="sec-metodos">Métodos principales</h2>
-        <p>Existen dos grandes enfoques complementarios:</p>
-        <ul>
-          <li><strong>Análisis estático:</strong> Inspección del código o binario sin ejecutarlo. Incluye el desensamblado (Ghidra, IDA Pro) y la decompilación.</li>
-          <li><strong>Análisis dinámico:</strong> Observación del comportamiento del programa en ejecución mediante depuradores (gdb, x64dbg) y trazas de llamadas al sistema.</li>
-        </ul>
-
-        <h2 id="sec-herramientas">Herramientas estándar</h2>
-        <p>La comunidad de seguridad utiliza un arsenal consolidado:</p>
-        <ul>
-          <li><strong>Ghidra</strong> — framework de código abierto desarrollado por la NSA, soporta decenas de arquitecturas.</li>
-          <li><strong>IDA Pro</strong> — estándar de la industria para análisis de malware y auditorías.</li>
-          <li><strong>Wireshark</strong> — captura y análisis de protocolos de red.</li>
-          <li><strong>Frida</strong> — instrumentación dinámica multiplataforma para móviles y desktop.</li>
-        </ul>
-
-        <h2 id="sec-legal">Marco legal</h2>
-        <p>En la Unión Europea, la Directiva 2009/24/CE permite la ingeniería inversa con fines de <em>interoperabilidad</em> sin necesidad de autorización del titular. En Estados Unidos, la DMCA prohíbe eludir medidas de protección, con excepciones para investigación de seguridad.</p>
-
-        <h2 id="sec-aplicaciones">Aplicaciones prácticas</h2>
-        <p>Los campos de aplicación son amplios:</p>
-        <ul>
-          <li>Ciberseguridad: análisis de malware, búsqueda de vulnerabilidades 0-day</li>
-          <li>Compatibilidad: desarrollo de drivers y APIs sin documentación oficial</li>
-          <li>Auditoría: verificación de cumplimiento en software de terceros</li>
-          <li>Preservación digital: recuperación de software descontinuado</li>
-        </ul>
-      </div>
-
-      <!-- Referencias -->
-      <div class="article-references">
-        <div class="references-title">Referencias</div>
-        <ol class="references-list">
-          <li>Eilam, E. (2005). <em>Reversing: Secrets of Reverse Engineering</em>. Wiley.</li>
-          <li>Directive 2009/24/EC of the European Parliament on the legal protection of computer programs.</li>
-          <li>NSA. (2019). <em>Ghidra: A Software Reverse Engineering Framework</em>. GitHub.</li>
-          <li>Eagle, C. (2011). <em>The IDA Pro Book</em>. No Starch Press.</li>
-        </ol>
-      </div>
-    </main>
-
-    <!-- SIDEBAR DERECHA -->
-    <aside class="sidebar-right">
-      <!-- Infobox del artículo -->
-      <div class="infobox" id="infobox">
-        <div class="infobox-title" id="infoboxTitle">Ingeniería Inversa</div>
-        <div class="infobox-body" id="infoboxBody">
-          <div class="info-row"><span class="info-key">Disciplina</span><span class="info-val">Ingeniería de Software</span></div>
-          <div class="info-row"><span class="info-key">Origen</span><span class="info-val">Ing. de producto (s. XX)</span></div>
-          <div class="info-row"><span class="info-key">Herramientas</span><span class="info-val">Ghidra, IDA Pro, Frida</span></div>
-          <div class="info-row"><span class="info-key">Métodos</span><span class="info-val">Estático · Dinámico</span></div>
-          <div class="info-row"><span class="info-key">Legalidad UE</span><span class="info-val">Permitida (interoperab.)</span></div>
-        </div>
-      </div>
-
-      <!-- Panel IA Veracidad -->
-      <div class="ai-panel">
-        <div class="ai-panel-header">✦ Filtro de Veracidad</div>
-        <div class="ai-panel-sub">Moderación automática activa</div>
-        <div class="confidence-label-row">
-          <span>Precisión del contenido</span>
-          <span id="confVal">94%</span>
-        </div>
-        <div class="confidence-bar">
-          <div class="confidence-fill" id="confFill"></div>
-        </div>
-        <div class="edit-log">
-          <div class="sidebar-title" style="margin-top:12px">Actividad Reciente</div>
-          <div class="edit-log-item"><span class="log-icon success">✅</span><div><strong>WikiAI Core</strong><p>Aprobó cambios en sección Legal</p></div></div>
-          <div class="edit-log-item"><span class="log-icon info">🛡️</span><div><strong>AI Engine</strong><p>Verificó 4 fuentes bibliográficas</p></div></div>
-          <div class="edit-log-item"><span class="log-icon warning">✏️</span><div><strong>TextRank Validator</strong><p>Actualizó herramientas (NLP)</p></div></div>
-        </div>
-      </div>
-
-      <!-- Artículos relacionados -->
-      <div class="related-panel" id="relatedPanel">
-        <div class="sidebar-title" style="padding: 0 0 8px; border-bottom: 1px solid var(--border-light); margin-bottom: 8px;">Artículos relacionados</div>
-        <a class="related-link" href="#" data-search="Seguridad informática">🛡️ Seguridad informática</a>
-        <a class="related-link" href="#" data-search="Análisis de malware">🦠 Análisis de malware</a>
-        <a class="related-link" href="#" data-search="Compilador">⚙️ Compiladores</a>
-        <a class="related-link" href="#" data-search="Criptografía">🔐 Criptografía</a>
-        <a class="related-link" href="#" data-search="Depurador">🐛 Depuradores</a>
-      </div>
-    </aside>
-  </div>
-
-  <!-- Botón flotante para abrir sidebar derecho en móvil -->
-  <button class="mobile-info-btn" id="mobileInfoBtn" aria-label="Abrir panel de información">ℹ️</button>
-
-  <!-- Overlay para drawers móviles -->
-  <div class="drawer-overlay" id="drawerOverlay"></div>
-
-  <!-- OVERLAYS & MODALS -->
-
-  <!-- Voice Overlay -->
-  <div class="modal-overlay voice-overlay" id="voiceOverlay">
-    <div class="voice-modal">
-      <div class="voice-anim" id="voiceAnim">
-        <div class="voice-ring r1"></div>
-        <div class="voice-ring r2"></div>
-        <div class="voice-ring r3"></div>
-        <div class="voice-icon">🎤</div>
-      </div>
-      <h2 class="voice-status" id="voiceStatus">Escuchando…</h2>
-      <p class="voice-hint">Habla claramente en español</p>
-      <p class="voice-transcript" id="voiceTranscript"></p>
-      <button class="btn-cancel" id="btnCancelVoice">Cancelar</button>
-    </div>
-  </div>
-
-  <!-- Login Modal -->
-  <div class="modal-overlay" id="loginModal">
-    <div class="modal-content">
-      <button class="modal-close" data-close="loginModal">✕</button>
-      <div class="modal-header">
-        <div class="logo-icon" style="margin: 0 auto 16px; width:52px;height:52px;font-size:26px">W</div>
-        <h2 class="modal-title">Iniciar Sesión</h2>
-        <p class="modal-sub">Accede a tu cuenta de WikiAI</p>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="loginEmail" class="form-input" placeholder="usuario@ejemplo.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Contraseña</label>
-        <input type="password" id="loginPassword" class="form-input" placeholder="••••••••">
-      </div>
-      <button class="btn-submit" id="btnLoginSubmit">Entrar</button>
-      
-      <div style="margin: 20px 0; display: flex; align-items: center; gap: 10px;">
-        <hr style="flex:1; border:0; border-top:1px solid var(--border-light);">
-        <span style="font-size:12px; color:var(--text-faint)">o</span>
-        <hr style="flex:1; border:0; border-top:1px solid var(--border-light);">
-      </div>
-
-      <!-- Contenedor Botón Google -->
-      <div id="googleBtnContainer" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
-
-      <div class="modal-footer">
-        ¿No tienes cuenta? <a href="#" id="toRegister">Regístrate aquí</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Register Modal -->
-  <div class="modal-overlay" id="registerModal">
-    <div class="modal-content">
-      <button class="modal-close" data-close="registerModal">✕</button>
-      <div class="modal-header">
-        <div class="logo-icon" style="margin: 0 auto 16px; width:52px;height:52px;font-size:26px">W</div>
-        <h2 class="modal-title">Crear Cuenta</h2>
-        <p class="modal-sub">Únete a la enciclopedia del futuro</p>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Email</label>
-        <input type="email" id="regEmail" class="form-input" placeholder="usuario@ejemplo.com">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Contraseña</label>
-        <input type="password" id="regPassword" class="form-input" placeholder="Mínimo 8 caracteres">
-      </div>
-      <button class="btn-submit" id="btnRegisterSubmit">Crear Cuenta</button>
-
-      <div style="margin: 20px 0; display: flex; align-items: center; gap: 10px;">
-        <hr style="flex:1; border:0; border-top:1px solid var(--border-light);">
-        <span style="font-size:12px; color:var(--text-faint)">o</span>
-        <hr style="flex:1; border:0; border-top:1px solid var(--border-light);">
-      </div>
-
-      <!-- Contenedor Botón Google (Registro) -->
-      <div id="googleBtnContainerReg" style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
-
-      <div class="modal-footer">
-        ¿Ya tienes cuenta? <a href="#" id="toLogin">Inicia sesión</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Perfil de Usuario Premium -->
-  <div class="modal-overlay" id="profileModal">
-    <div class="modal modal-content profile-modal-card">
-      <button class="modal-close" onclick="document.getElementById('profileModal').classList.remove('show')">×</button>
-      <div class="modal-header" style="margin-bottom: 16px;">
-        <h2 class="modal-title">Mi Perfil</h2>
-        <p class="modal-sub">Configuración de cuenta</p>
-      </div>
-      <div class="modal-body">
-        <div class="profile-avatar" id="profileAvatar">👤</div>
-        <div style="text-align: center; margin-bottom: 24px;">
-            <span id="profileEmailDisplay" style="font-size: 18px; font-weight: 700; color: var(--accent-primary); display: block; margin-bottom: 4px;"></span>
-            <p class="modal-sub" style="margin-bottom: 0;">Identidad Protegida</p>
-        </div>
-        
-        <!-- Mantendremos el input oculto para compatibilidad con auth.js si es necesario -->
-        <input type="hidden" id="profileUsername" />
-        <input type="hidden" id="profileEmail" />
-
-        <div id="profileGuideMessage" style="padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 20px; line-height: 1.4;"></div>
-        
-        <div class="password-change-section" style="background: var(--surface-alt); padding: 12px; border-radius: 8px; margin-bottom: 20px;">
-            <h4 class="form-label" style="margin-bottom: 10px;">Cambiar Contraseña</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <input type="password" class="form-input" id="profileCurrentPassword" placeholder="Actual" />
-                <input type="password" class="form-input" id="profileNewPassword" placeholder="Nueva" />
+        <a
+          class="logo"
+          href="#"
+          onclick="
+            loadArticle('Ingeniería Inversa');
+            return false;
+          "
+        >
+          <div class="logo-wrapper">
+            <div class="logo-icon">W</div>
+            <div class="logo-text-group">
+              <div class="logo-text">WikiAI</div>
+              <span class="logo-tagline">Inteligencia Colectiva</span>
             </div>
+            <span class="logo-badge">IA</span>
+          </div>
+        </a>
+
+        <div class="search-wrap" id="searchWrap">
+          <div class="search-bar" id="searchBar">
+            <button
+              class="btn-search-mode"
+              id="btnSearchMode"
+              title="Modo de búsqueda"
+            >
+              W
+            </button>
+            <input
+              type="search"
+              id="searchInput"
+              name="wikiai-search-query"
+              placeholder="Buscar en Wikipedia..."
+              autocomplete="none"
+              role="searchbox"
+              data-form-type="other"
+            />
+            <button class="btn-voice" id="btnVoice" title="Buscar por voz">
+              🎤
+            </button>
+            <button class="btn-search" id="btnSearch">Buscar</button>
+          </div>
+          <div class="autocomplete-box" id="autocompleteBox"></div>
         </div>
 
-        <div class="user-articles-section" style="margin-bottom: 20px; border-top: none; padding-top: 0; margin-top: 0;">
+        <nav class="header-nav">
+          <a
+            class="nav-link"
+            href="#"
+            onclick="
+              loadArticle('Portada');
+              return false;
+            "
+            >Portada</a
+          >
+          <button class="nav-link btn-login" id="btnLogin">
+            Iniciar sesión
+          </button>
+          <div
+            id="authNav"
+            style="display: none; align-items: center; gap: 12px"
+          >
+            <span
+              id="userGreeting"
+              style="
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-main);
+                cursor: pointer;
+              "
+              onclick="Auth.loadProfile()"
+            ></span>
+            <button
+              class="nav-link btn-danger"
+              style="
+                padding: 6px 12px;
+                font-size: 12px;
+                border-radius: 6px;
+                margin: 0;
+                line-height: 1;
+              "
+              id="btnTopLogout"
+            >
+              Salir
+            </button>
+          </div>
+        </nav>
+
+        <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+          🌙
+        </button>
+      </div>
+    </header>
+
+    <!-- LAYOUT -->
+    <div class="page-wrap">
+      <!-- SIDEBAR IZQUIERDA -->
+      <aside class="sidebar-left">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Navegación</div>
+          <a class="sidebar-link active" href="#" data-action="portada"
+            >📖 Portada</a
+          >
+          <a class="sidebar-link" href="#" data-action="eventos"
+            >📅 Eventos actuales</a
+          >
+          <a class="sidebar-link" href="#" data-action="aleatorio"
+            >🎲 Artículo aleatorio</a
+          >
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Herramientas IA</div>
+          <a class="sidebar-link" href="#" data-action="resumen"
+            >✦ Resumen automático</a
+          >
+          <a class="sidebar-link" href="#" data-action="filtro"
+            >🛡️ Filtro de aportes</a
+          >
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Comunidad</div>
+          <a class="sidebar-link" href="#" data-action="portal"
+            >💬 Portal comunitario</a
+          >
+          <a class="sidebar-link" href="#" data-action="editor"
+            >✍️ Escribir artículo</a
+          >
+          <a class="sidebar-link" href="#" data-action="ayuda">❓ Ayuda</a>
+        </div>
+
+        <!-- TOC dinámico -->
+        <div class="sidebar-section" id="tocSection" style="display: none">
+          <div class="sidebar-title">Contenido</div>
+          <div id="tocList"></div>
+        </div>
+      </aside>
+
+      <!-- ARTÍCULO PRINCIPAL -->
+      <main class="article" id="articleMain">
+        <div class="article-header">
+          <div class="article-breadcrumb" id="articleBreadcrumb">
+            Tecnología › Ingeniería › Software
+          </div>
+          <h1 class="article-title" id="articleTitle">Ingeniería Inversa</h1>
+          <p class="article-subtitle" id="articleSubtitle">
+            El arte de deconstruir para comprender, mejorar y asegurar sistemas
+            complejos.
+          </p>
+          <div class="article-meta">
+            <span class="meta-tag verified">✅ Verificado</span>
+            <span class="meta-tag" id="editCount">📝 1.2k Ediciones</span>
+            <span class="meta-tag premium">⭐ Calidad Premium</span>
+          </div>
+        </div>
+
+        <!-- Panel IA -->
+        <div class="ai-summary glass" id="aiSummary">
+          <div class="ai-summary-header">
+            <span class="ai-badge">✦ IA</span>
+            <span class="ai-summary-title">Análisis inteligente</span>
+            <span class="ai-model">WikiAI · Local Intelligence</span>
+          </div>
+          <!-- Estado idle: invitación a generar el resumen -->
+          <div class="ai-idle" id="aiIdle">
+            <div class="ai-idle-icon">✦</div>
+            <p class="ai-idle-text">
+              Pulsa <strong>"✦ Resumen automático"</strong> en el menú lateral
+              para generar un análisis con IA del artículo actual.
+            </p>
+          </div>
+          <div class="ai-generating" id="aiGenerating" style="display: none">
+            <div class="generating-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span>Sintetizando información clave…</span>
+          </div>
+          <div class="ai-content" id="aiContent" style="display: none"></div>
+        </div>
+
+        <!-- Cuerpo del artículo -->
+        <div class="article-body" id="articleBody">
+          <p>
+            La <strong>ingeniería inversa</strong> es el proceso de analizar un
+            producto o sistema para identificar sus componentes y las
+            interrelaciones entre ellos, con el fin de reconstruir una
+            representación del mismo en un nivel superior de abstracción.
+          </p>
+          <p>
+            En el ámbito del software, se utiliza para comprender el
+            funcionamiento de ejecutables sin acceso al código fuente,
+            permitiendo auditorías de seguridad, corrección de errores en
+            sistemas legados y garantía de interoperabilidad entre plataformas
+            distintas.
+          </p>
+
+          <h2 id="sec-definicion">Definición y alcance</h2>
+          <p>
+            El término proviene de la ingeniería de producto convencional: dado
+            un sistema terminado, se trabaja «en reversa» para deducir su diseño
+            original. En software, la ingeniería inversa abarca desde la lectura
+            de bytecode Java hasta el desensamblado de binarios nativos x86/ARM.
+          </p>
+
+          <h2 id="sec-metodos">Métodos principales</h2>
+          <p>Existen dos grandes enfoques complementarios:</p>
+          <ul>
+            <li>
+              <strong>Análisis estático:</strong> Inspección del código o
+              binario sin ejecutarlo. Incluye el desensamblado (Ghidra, IDA Pro)
+              y la decompilación.
+            </li>
+            <li>
+              <strong>Análisis dinámico:</strong> Observación del comportamiento
+              del programa en ejecución mediante depuradores (gdb, x64dbg) y
+              trazas de llamadas al sistema.
+            </li>
+          </ul>
+
+          <h2 id="sec-herramientas">Herramientas estándar</h2>
+          <p>La comunidad de seguridad utiliza un arsenal consolidado:</p>
+          <ul>
+            <li>
+              <strong>Ghidra</strong> — framework de código abierto desarrollado
+              por la NSA, soporta decenas de arquitecturas.
+            </li>
+            <li>
+              <strong>IDA Pro</strong> — estándar de la industria para análisis
+              de malware y auditorías.
+            </li>
+            <li>
+              <strong>Wireshark</strong> — captura y análisis de protocolos de
+              red.
+            </li>
+            <li>
+              <strong>Frida</strong> — instrumentación dinámica multiplataforma
+              para móviles y desktop.
+            </li>
+          </ul>
+
+          <h2 id="sec-legal">Marco legal</h2>
+          <p>
+            En la Unión Europea, la Directiva 2009/24/CE permite la ingeniería
+            inversa con fines de <em>interoperabilidad</em> sin necesidad de
+            autorización del titular. En Estados Unidos, la DMCA prohíbe eludir
+            medidas de protección, con excepciones para investigación de
+            seguridad.
+          </p>
+
+          <h2 id="sec-aplicaciones">Aplicaciones prácticas</h2>
+          <p>Los campos de aplicación son amplios:</p>
+          <ul>
+            <li>
+              Ciberseguridad: análisis de malware, búsqueda de vulnerabilidades
+              0-day
+            </li>
+            <li>
+              Compatibilidad: desarrollo de drivers y APIs sin documentación
+              oficial
+            </li>
+            <li>
+              Auditoría: verificación de cumplimiento en software de terceros
+            </li>
+            <li>
+              Preservación digital: recuperación de software descontinuado
+            </li>
+          </ul>
+        </div>
+
+        <!-- Referencias -->
+        <div class="article-references">
+          <div class="references-title">Referencias</div>
+          <ol class="references-list">
+            <li>
+              Eilam, E. (2005).
+              <em>Reversing: Secrets of Reverse Engineering</em>. Wiley.
+            </li>
+            <li>
+              Directive 2009/24/EC of the European Parliament on the legal
+              protection of computer programs.
+            </li>
+            <li>
+              NSA. (2019).
+              <em>Ghidra: A Software Reverse Engineering Framework</em>. GitHub.
+            </li>
+            <li>
+              Eagle, C. (2011). <em>The IDA Pro Book</em>. No Starch Press.
+            </li>
+          </ol>
+        </div>
+      </main>
+
+      <!-- SIDEBAR DERECHA -->
+      <aside class="sidebar-right">
+        <!-- Infobox del artículo -->
+        <div class="infobox" id="infobox">
+          <div class="infobox-title" id="infoboxTitle">Ingeniería Inversa</div>
+          <div class="infobox-body" id="infoboxBody">
+            <div class="info-row">
+              <span class="info-key">Disciplina</span
+              ><span class="info-val">Ingeniería de Software</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Origen</span
+              ><span class="info-val">Ing. de producto (s. XX)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Herramientas</span
+              ><span class="info-val">Ghidra, IDA Pro, Frida</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Métodos</span
+              ><span class="info-val">Estático · Dinámico</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">Legalidad UE</span
+              ><span class="info-val">Permitida (interoperab.)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel IA Veracidad -->
+        <div class="ai-panel">
+          <div class="ai-panel-header">✦ Filtro de Veracidad</div>
+          <div class="ai-panel-sub">Moderación automática activa</div>
+          <div class="confidence-label-row">
+            <span>Precisión del contenido</span>
+            <span id="confVal">94%</span>
+          </div>
+          <div class="confidence-bar">
+            <div class="confidence-fill" id="confFill"></div>
+          </div>
+          <div class="edit-log">
+            <div class="sidebar-title" style="margin-top: 12px">
+              Actividad Reciente
+            </div>
+            <div class="edit-log-item">
+              <span class="log-icon success">✅</span>
+              <div>
+                <strong>WikiAI Core</strong>
+                <p>Aprobó cambios en sección Legal</p>
+              </div>
+            </div>
+            <div class="edit-log-item">
+              <span class="log-icon info">🛡️</span>
+              <div>
+                <strong>AI Engine</strong>
+                <p>Verificó 4 fuentes bibliográficas</p>
+              </div>
+            </div>
+            <div class="edit-log-item">
+              <span class="log-icon warning">✏️</span>
+              <div>
+                <strong>TextRank Validator</strong>
+                <p>Actualizó herramientas (NLP)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artículos relacionados -->
+        <div class="related-panel" id="relatedPanel">
+          <div
+            class="sidebar-title"
+            style="
+              padding: 0 0 8px;
+              border-bottom: 1px solid var(--border-light);
+              margin-bottom: 8px;
+            "
+          >
+            Artículos relacionados
+          </div>
+          <a class="related-link" href="#" data-search="Seguridad informática"
+            >🛡️ Seguridad informática</a
+          >
+          <a class="related-link" href="#" data-search="Análisis de malware"
+            >🦠 Análisis de malware</a
+          >
+          <a class="related-link" href="#" data-search="Compilador"
+            >⚙️ Compiladores</a
+          >
+          <a class="related-link" href="#" data-search="Criptografía"
+            >🔐 Criptografía</a
+          >
+          <a class="related-link" href="#" data-search="Depurador"
+            >🐛 Depuradores</a
+          >
+        </div>
+      </aside>
+    </div>
+
+    <!-- Botón flotante para abrir sidebar derecho en móvil -->
+    <button
+      class="mobile-info-btn"
+      id="mobileInfoBtn"
+      aria-label="Abrir panel de información"
+    >
+      ℹ️
+    </button>
+
+    <!-- Overlay para drawers móviles -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+
+    <!-- OVERLAYS & MODALS -->
+
+    <!-- Voice Overlay -->
+    <div class="modal-overlay voice-overlay" id="voiceOverlay">
+      <div class="voice-modal">
+        <div class="voice-anim" id="voiceAnim">
+          <div class="voice-ring r1"></div>
+          <div class="voice-ring r2"></div>
+          <div class="voice-ring r3"></div>
+          <div class="voice-icon">🎤</div>
+        </div>
+        <h2 class="voice-status" id="voiceStatus">Escuchando…</h2>
+        <p class="voice-hint">Habla claramente en español</p>
+        <p class="voice-transcript" id="voiceTranscript"></p>
+        <button class="btn-cancel" id="btnCancelVoice">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+      <div class="modal-content">
+        <button class="modal-close" data-close="loginModal">✕</button>
+        <div class="modal-header">
+          <div
+            class="logo-icon"
+            style="
+              margin: 0 auto 16px;
+              width: 52px;
+              height: 52px;
+              font-size: 26px;
+            "
+          >
+            W
+          </div>
+          <h2 class="modal-title">Iniciar Sesión</h2>
+          <p class="modal-sub">Accede a tu cuenta de WikiAI</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            id="loginEmail"
+            class="form-input"
+            placeholder="usuario@ejemplo.com"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="loginPassword"
+            class="form-input"
+            placeholder="••••••••"
+          />
+        </div>
+        <button class="btn-submit" id="btnLoginSubmit">Entrar</button>
+
+        <div
+          style="margin: 20px 0; display: flex; align-items: center; gap: 10px"
+        >
+          <hr
+            style="
+              flex: 1;
+              border: 0;
+              border-top: 1px solid var(--border-light);
+            "
+          />
+          <span style="font-size: 12px; color: var(--text-faint)">o</span>
+          <hr
+            style="
+              flex: 1;
+              border: 0;
+              border-top: 1px solid var(--border-light);
+            "
+          />
+        </div>
+
+        <!-- Contenedor Botón Google -->
+        <div
+          id="googleBtnContainer"
+          style="display: flex; justify-content: center; margin-bottom: 20px"
+        ></div>
+
+        <div class="modal-footer">
+          ¿No tienes cuenta? <a href="#" id="toRegister">Regístrate aquí</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="registerModal">
+      <div class="modal-content">
+        <button class="modal-close" data-close="registerModal">✕</button>
+        <div class="modal-header">
+          <div
+            class="logo-icon"
+            style="
+              margin: 0 auto 16px;
+              width: 52px;
+              height: 52px;
+              font-size: 26px;
+            "
+          >
+            W
+          </div>
+          <h2 class="modal-title">Crear Cuenta</h2>
+          <p class="modal-sub">Únete a la enciclopedia del futuro</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input
+            type="email"
+            id="regEmail"
+            class="form-input"
+            placeholder="usuario@ejemplo.com"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="regPassword"
+            class="form-input"
+            placeholder="Mínimo 8 caracteres"
+          />
+        </div>
+        <button class="btn-submit" id="btnRegisterSubmit">Crear Cuenta</button>
+
+        <div
+          style="margin: 20px 0; display: flex; align-items: center; gap: 10px"
+        >
+          <hr
+            style="
+              flex: 1;
+              border: 0;
+              border-top: 1px solid var(--border-light);
+            "
+          />
+          <span style="font-size: 12px; color: var(--text-faint)">o</span>
+          <hr
+            style="
+              flex: 1;
+              border: 0;
+              border-top: 1px solid var(--border-light);
+            "
+          />
+        </div>
+
+        <!-- Contenedor Botón Google (Registro) -->
+        <div
+          id="googleBtnContainerReg"
+          style="display: flex; justify-content: center; margin-bottom: 20px"
+        ></div>
+
+        <div class="modal-footer">
+          ¿Ya tienes cuenta? <a href="#" id="toLogin">Inicia sesión</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Perfil de Usuario Premium -->
+    <div class="modal-overlay" id="profileModal">
+      <div class="modal modal-content profile-modal-card">
+        <button
+          class="modal-close"
+          onclick="
+            document.getElementById('profileModal').classList.remove('show')
+          "
+        >
+          ×
+        </button>
+        <div class="modal-header" style="margin-bottom: 16px">
+          <h2 class="modal-title">Mi Perfil</h2>
+          <p class="modal-sub">Configuración de cuenta</p>
+        </div>
+        <div class="modal-body">
+          <div class="profile-avatar" id="profileAvatar">👤</div>
+          <div style="text-align: center; margin-bottom: 24px">
+            <span
+              id="profileEmailDisplay"
+              style="
+                font-size: 18px;
+                font-weight: 700;
+                color: var(--accent-primary);
+                display: block;
+                margin-bottom: 4px;
+              "
+            ></span>
+            <p class="modal-sub" style="margin-bottom: 0">
+              Identidad Protegida
+            </p>
+          </div>
+
+          <!-- Mantendremos el input oculto para compatibilidad con auth.js si es necesario -->
+          <input type="hidden" id="profileUsername" />
+          <input type="hidden" id="profileEmail" />
+
+          <div
+            id="profileGuideMessage"
+            style="
+              padding: 10px;
+              border-radius: 8px;
+              font-size: 12px;
+              margin-bottom: 20px;
+              line-height: 1.4;
+            "
+          ></div>
+
+          <div
+            class="password-change-section"
+            style="
+              background: var(--surface-alt);
+              padding: 12px;
+              border-radius: 8px;
+              margin-bottom: 20px;
+            "
+          >
+            <h4 class="form-label" style="margin-bottom: 10px">
+              Cambiar Contraseña
+            </h4>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px"
+            >
+              <input
+                type="password"
+                class="form-input"
+                id="profileCurrentPassword"
+                placeholder="Actual"
+              />
+              <input
+                type="password"
+                class="form-input"
+                id="profileNewPassword"
+                placeholder="Nueva"
+              />
+            </div>
+          </div>
+
+          <div
+            class="user-articles-section"
+            style="
+              margin-bottom: 20px;
+              border-top: none;
+              padding-top: 0;
+              margin-top: 0;
+            "
+          >
             <h4 class="form-label">Mis Artículos Publicados</h4>
             <div id="userArticlesList" class="user-articles-list">
-                <p style="font-size:12.5px; color:var(--text-muted); padding:10px 0;">Aún no has publicado artículos.</p>
+              <p
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-muted);
+                  padding: 10px 0;
+                "
+              >
+                Aún no has publicado artículos.
+              </p>
             </div>
-        </div>
+          </div>
 
-        <div class="user-articles-section" style="margin-bottom: 24px; border-top: none; padding-top: 0; margin-top: 0;">
+          <div
+            class="user-articles-section"
+            style="
+              margin-bottom: 24px;
+              border-top: none;
+              padding-top: 0;
+              margin-top: 0;
+            "
+          >
             <h4 class="form-label">Historial de Búsqueda</h4>
             <div id="userSearchHistory" class="user-articles-list">
-                <p style="font-size:12.5px; color:var(--text-muted); padding:10px 0;">No hay búsquedas recientes.</p>
+              <p
+                style="
+                  font-size: 12.5px;
+                  color: var(--text-muted);
+                  padding: 10px 0;
+                "
+              >
+                No hay búsquedas recientes.
+              </p>
             </div>
-        </div>
+          </div>
 
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-submit" id="btnUpdateProfile" style="margin-top: 0;">Guardar Cambios</button>
-            <button class="btn-submit" id="btnLogout" style="margin-top: 0; background: var(--error);">Cerrar Sesión</button>
+          <div style="display: flex; gap: 10px">
+            <button
+              class="btn-submit"
+              id="btnUpdateProfile"
+              style="margin-top: 0"
+            >
+              Guardar Cambios
+            </button>
+            <button
+              class="btn-submit"
+              id="btnLogout"
+              style="margin-top: 0; background: var(--error)"
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-
-  <!-- Scripts -->
-  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-  <script src="js/theme.js?v=10"></script>
-  <script src="js/auth.js?v=10"></script>
-  <script src="js/search.js?v=10"></script>
-  <script src="js/voice.js?v=10"></script>
-  <script src="js/navigation.js?v=4"></script>
-  <script src="js/ai.js?v=4"></script>
-  <script src="js/editor.js?v=4"></script>
-</body>
+    <!-- Scripts -->
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="js/theme.js?v=15"></script>
+    <script src="js/auth.js?v=15"></script>
+    <script src="js/search.js?v=15"></script>
+    <script src="js/voice.js?v=15"></script>
+    <script src="js/navigation.js?v=4"></script>
+    <script src="js/ai.js?v=4"></script>
+    <script src="js/editor.js?v=4"></script>
+  </body>
 </html>
